@@ -55,7 +55,7 @@ sboms:
   - artifacts: binary
     cmd: cyclonedx-gomod
     documents:
-      - "{{ .Binary }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}.sbom.json
+      - '{{ .Binary }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}.sbom.json'
     # changes: xml instead of json, and assert-licenses to add licen info per component
     args:
       [
