@@ -1,8 +1,10 @@
 # Download and run
 
 ## Direct download
+
 [pgfga](https://github.com/pgvillage-tools/pgfga) is available for download for many platforms and architectures from the [Github Releases page](https://github.com/pgvillage-tools/pgfga/releases).
 It could be as simple as:
+
 ```bash
 PGFGA_VERSION=v2.0.0
 cd $(mktemp -d)
@@ -13,30 +15,37 @@ cd -
 ```
 
 After that you can run pgfga directly from the prompt:
+
 ```bash
 pgfga -c ./myconfig.yml
 ```
 
 ## Container image
+
 For container environments [pgfga](https://github.com/pgvillage-tools/pgfga) is also available on [dockerhub](https://hub.docker.com/repository/docker/pgvillage-tools/pgfga).
 You can easilly pull it with:
+
 ```bash
-docker pull pgvillage-tools/pgfga
+docker pull ghcr.io/pgvillage-tools/pgfga
 ```
 
 The image has an example config.yaml, but you probably want to mount your own config file at /etc/pgfga/config.yaml:
+
 ```bash
-docker run -v $PWD/config.yaml:/etc/pgfga/config.yaml pgvillage-tools/pgfga
+docker run -v $PWD/config.yaml:/etc/pgfga/config.yaml ghcr.io/pgvillage-tools/pgfga
 ```
+
 **Note** that the $PWD is added to mount the file with its full absolute path. Relative paths are not supported.
 
 ## docker-compose
+
 You can use pgfga with docker compose.
 The docker-compose.yml file could have contents like this:
+
 ```yaml
 services:
   pgfga:
-    image: pgvillage-tools/pgfga
+    image: ghcr.io/pgvillage-tools/pgfga
     volume:
       - ./testdata/config.yaml:/etc/pgfga/config.yaml
   postgres:
@@ -47,8 +56,8 @@ services:
   ldap:
     image: osixia/openldap
     command:
-      - "--copy-service"
-      - "--loglevel"
+      - '--copy-service'
+      - '--loglevel'
       - debug
     environment:
       LDAP_ORGANISATION: pgfga
@@ -57,8 +66,10 @@ services:
     volumes:
       - ./testdata/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
 ```
+
 **Note** that the ldap needs content.
 Please see the [github project for pgfga](https://github.com/pgvillage-tools/pgfga) for a working example of docker-compose setting up a ldap, and postgres, and running pgfga against it, which consists of.
+
 - The [docker-compose.yml file](https://github.com/pgvillage-tools/pgfga/blob/docs/docker-compose.yml)
 - The [bash script running docker compose](https://github.com/pgvillage-tools/pgfga/blob/docs/docker-compose-tests.sh)
 - The [ldif file we use](https://github.com/pgvillage-tools/pgfga/blob/docs/testdata/ldif/01_objects.ldif)
@@ -67,11 +78,13 @@ Please see the [github project for pgfga](https://github.com/pgvillage-tools/pgf
 ## Direct build
 
 Although not advised, you can also directly build from source:
+
 ```bash
 go install github.com/pgvillage-tools/pgfga/cmd/pgfga@master
 ```
 
 After that you can run pgfga directly from the prompt:
+
 ```bash
 pgfga -c pgfgaconfig.yml
 ```
