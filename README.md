@@ -56,9 +56,9 @@ The user could be made available either with:
 - Setting up ldap authentication for the postgres user (see the [docker-compose example](docker-compose.yml) for an example of this setup).
 
 # Downloading
-The most straight forward option is to download the [pgfga](https://github.com/MannemSolutions/pgfga) binary directly from the [github release page](https://github.com/MannemSolutions/pgfga/releases).
+The most straight forward option is to download the [pgfga](https://github.com/pgvillage-tools/pgfga) binary directly from the [github release page](https://github.com/pgvillage-tools/pgfga/releases).
 But there are other options, like
-- using the [container image from dockerhub](https://hub.docker.com/repository/docker/mannemsolutions/pgfga/general)
+- using the [container image from dockerhub](https://hub.docker.com/repository/docker/pgvillage-tools/pgfga/general)
 - direct build from source (if you feel you must)
 
 Please refer to [our download instructions](DOWNLOAD_AND_RUN.md) for more details on all options.

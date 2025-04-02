@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/mannemsolutions/pgfga/internal"
+	"github.com/pgvillage-tools/pgfga/internal"
 )
 
 func main() {

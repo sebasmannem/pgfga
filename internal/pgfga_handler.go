@@ -2,8 +2,8 @@ package internal
 
 import (
 	"fmt"
-	"github.com/mannemsolutions/pgfga/pkg/ldap"
-	"github.com/mannemsolutions/pgfga/pkg/pg"
+	"github.com/pgvillage-tools/pgfga/pkg/ldap"
+	"github.com/pgvillage-tools/pgfga/pkg/pg"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"

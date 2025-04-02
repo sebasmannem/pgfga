@@ -1,12 +1,12 @@
 # Download and run
 
 ## Direct download
-[pgfga](https://github.com/MannemSolutions/pgfga) is available for download for many platforms and architectures from the [Github Releases page](https://github.com/MannemSolutions/pgfga/releases).
+[pgfga](https://github.com/pgvillage-tools/pgfga) is available for download for many platforms and architectures from the [Github Releases page](https://github.com/pgvillage-tools/pgfga/releases).
 It could be as simple as:
 ```bash
 PGFGA_VERSION=v2.0.0
 cd $(mktemp -d)
-curl -Lo "pgfga-${PGFGA_VERSION}-linux-amd64.tar.gz" "https://github.com/MannemSolutions/pgfga/releases/download/${PGFGA_VERSION}/pgfga-${PGFGA_VERSION}-linux-amd64.tar.gz"
+curl -Lo "pgfga-${PGFGA_VERSION}-linux-amd64.tar.gz" "https://github.com/pgvillage-tools/pgfga/releases/download/${PGFGA_VERSION}/pgfga-${PGFGA_VERSION}-linux-amd64.tar.gz"
 tar -xvf "./pgfga-${PGFGA_VERSION}-linux-amd64.tar.gz"
 mv pgfga /usr/local/bin
 cd -
@@ -18,15 +18,15 @@ pgfga -c ./myconfig.yml
 ```
 
 ## Container image
-For container environments [pgfga](https://github.com/MannemSolutions/pgfga) is also available on [dockerhub](https://hub.docker.com/repository/docker/mannemsolutions/pgfga).
+For container environments [pgfga](https://github.com/pgvillage-tools/pgfga) is also available on [dockerhub](https://hub.docker.com/repository/docker/pgvillage-tools/pgfga).
 You can easilly pull it with:
 ```bash
-docker pull mannemsolutions/pgfga
+docker pull pgvillage-tools/pgfga
 ```
 
 The image has an example config.yaml, but you probably want to mount your own config file at /etc/pgfga/config.yaml:
 ```bash
-docker run -v $PWD/config.yaml:/etc/pgfga/config.yaml mannemsolutions/pgfga
+docker run -v $PWD/config.yaml:/etc/pgfga/config.yaml pgvillage-tools/pgfga
 ```
 **Note** that the $PWD is added to mount the file with its full absolute path. Relative paths are not supported.
 
@@ -36,7 +36,7 @@ The docker-compose.yml file could have contents like this:
 ```yaml
 services:
   pgfga:
-    image: mannemsolutions/pgfga
+    image: pgvillage-tools/pgfga
     volume:
       - ./testdata/config.yaml:/etc/pgfga/config.yaml
   postgres:
@@ -58,17 +58,17 @@ services:
       - ./testdata/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
 ```
 **Note** that the ldap needs content.
-Please see the [github project for pgfga](https://github.com/MannemSolutions/pgfga) for a working example of docker-compose setting up a ldap, and postgres, and running pgfga against it, which consists of.
-- The [docker-compose.yml file](https://github.com/MannemSolutions/pgfga/blob/docs/docker-compose.yml)
-- The [bash script running docker compose](https://github.com/MannemSolutions/pgfga/blob/docs/docker-compose-tests.sh)
-- The [ldif file we use](https://github.com/MannemSolutions/pgfga/blob/docs/testdata/ldif/01_objects.ldif)
-- The [pgfga config file we use](https://github.com/MannemSolutions/pgfga/blob/docs/testdata/config.yaml)
+Please see the [github project for pgfga](https://github.com/pgvillage-tools/pgfga) for a working example of docker-compose setting up a ldap, and postgres, and running pgfga against it, which consists of.
+- The [docker-compose.yml file](https://github.com/pgvillage-tools/pgfga/blob/docs/docker-compose.yml)
+- The [bash script running docker compose](https://github.com/pgvillage-tools/pgfga/blob/docs/docker-compose-tests.sh)
+- The [ldif file we use](https://github.com/pgvillage-tools/pgfga/blob/docs/testdata/ldif/01_objects.ldif)
+- The [pgfga config file we use](https://github.com/pgvillage-tools/pgfga/blob/docs/testdata/config.yaml)
 
 ## Direct build
 
 Although not advised, you can also directly build from source:
 ```bash
-go install github.com/mannemsolutions/pgfga/cmd/pgfga@master
+go install github.com/pgvillage-tools/pgfga/cmd/pgfga@master
 ```
 
 After that you can run pgfga directly from the prompt:

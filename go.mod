@@ -1,4 +1,4 @@
-module github.com/mannemsolutions/pgfga
+module github.com/pgvillage-tools/pgfga
 
 go 1.16
 
