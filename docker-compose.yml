@@ -1,4 +1,3 @@
-version: '3.9' # optional since v1.27.0
 services:
   phpldapadmin:
     image: osixia/phpldapadmin
@@ -31,13 +30,13 @@ services:
       POSTGRES_HOST_AUTH_METHOD: 'ldap ldapserver=ldap ldapprefix="uid=" ldapsuffix=",ou=users,dc=pgfga,dc=org"'
       POSTGRES_PASSWORD: not_this_but_in_ldap
   pgtester:
-    image: ghcr.io/pgvillage/pgtester
-    command:
-      - pgtester
-      - /host/testdata/pgtester/tests.yaml
+    image: ghcr.io/pgvillage-tools/pgtester
+    command: /host/testdata/pgtester/tests.yaml
     volumes:
       - ./:/host
   pgfga:
     build: .
     environment:
-      PGFGACONFIG: /etc/pgfga/config.yaml
+      PGFGACONFIG: /host/testdata/config.yaml
+    volumes:
+      - ./:/host

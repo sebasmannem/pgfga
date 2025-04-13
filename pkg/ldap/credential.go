@@ -2,11 +2,17 @@ package ldap
 
 import (
 	"encoding/base64"
-	"fmt"
+	"errors"
 	"os"
 	"os/exec"
 )
 
+const (
+	executableBits = 0o111
+)
+
+// Credential is a structure to configure a credential.
+// Credentials can be paased as a string, or from a file, and can be base64 encoded.
 type Credential struct {
 	Value  string `yaml:"value"`
 	File   string `yaml:"file"`
@@ -19,7 +25,7 @@ func isExecutable(filename string) (isExecutable bool, err error) {
 		return false, err
 	}
 	mode := fi.Mode()
-	return mode&0111 == 0111, nil
+	return mode&executableBits == executableBits, nil
 }
 
 func fromExecutable(filename string) (value string, err error) {
@@ -45,41 +51,37 @@ func fromFile(filename string) (value string, err error) {
 	// The intent is to give an option to retrieve a password from a file.
 	// As such opening a file which name is set by a variable is sort of the point.
 	// #nosec
-	file, err := os.Open(filename) // For read access.
+	data, err := os.ReadFile(filename)
 	if err != nil {
 		return "", err
-	}
-	data := make([]byte, 100)
-	count, err := file.Read(data)
-	if err != nil {
-		return "", err
-	}
-	if count == 0 {
-		return "", fmt.Errorf("file %s is empty", filename)
 	}
 	return string(data[:]), nil
 }
 
-func (c *Credential) GetCred() (value string, err error) {
-	if c.Value != "" {
-	} else if c.File != "" {
-		c.Value, err = fromFile(c.File)
-		if err != nil {
+// GetCred is a method to retrieve the Credential, and return it's unencrypted string value (or an error).
+func (c *Credential) GetCred() (string, error) {
+	var err error
+	if c.Value == "" && c.File == "" {
+		return "", errors.New("either value or file must be set in a credential")
+	}
+	if c.Value == "" {
+		if c.Value, err = fromFile(c.File); err != nil {
 			return "", err
 		}
-	} else {
-		return "", fmt.Errorf("either value or file must be set in a credential")
+	}
+	if c.Value == "" {
+		return "", errors.New("credential file is empty")
 	}
 	if c.Base64 {
-		data, err := base64.StdEncoding.DecodeString(value)
+		data, err := base64.StdEncoding.DecodeString(c.Value)
 		if err != nil {
 			return "", err
 		}
 		c.Value = string(data)
 		c.Base64 = false
+		if c.Value == "" {
+			return "", errors.New("empty credential after base64 decryption")
+		}
 	}
-	if c.Value != "" {
-		return c.Value, nil
-	}
-	return "", fmt.Errorf("credentials file is empty")
+	return c.Value, nil
 }
